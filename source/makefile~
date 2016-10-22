@@ -1,0 +1,34 @@
+OUTDIR = output
+SRC = source
+CC1 = python
+CC2 = pdflatex
+CC3 = bibtex
+NAME = pendulum_with_friction.py
+TEX = report.tex
+DEL = report
+AUX = report.aux
+
+all:
+	mkdir -p $(OUTDIR)
+	cd $(SRC)
+	make python
+
+python:
+	$(CC1) $(NAME)
+	make latex
+
+latex:
+	$(CC2) $(TEX)
+	make bibtex
+
+bibtex:
+	$(CC3) $(AUX)
+	make latex2
+
+latex2:
+	$(CC2) $(TEX)
+	$(CC2) $(TEX)
+	rm -f $(DEL) *~ *.aux *.log *.out *.blg *.bbl
+	cd .. 
+clean:
+	rm -rf $(OUTDIR)
